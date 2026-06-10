@@ -1,24 +1,19 @@
 package api
 
 import (
-	"encoding/json"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
-func Index(w http.ResponseWriter, _ *http.Request) {
-	writeJSON(w, http.StatusOK, map[string]string{
+func Index(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
 		"message": "go-web service",
 	})
 }
 
-func Health(w http.ResponseWriter, _ *http.Request) {
-	writeJSON(w, http.StatusOK, map[string]string{
+func Health(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{
 		"status": "ok",
 	})
-}
-
-func writeJSON(w http.ResponseWriter, statusCode int, payload any) {
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	w.WriteHeader(statusCode)
-	_ = json.NewEncoder(w).Encode(payload)
 }

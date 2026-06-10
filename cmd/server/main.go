@@ -2,7 +2,6 @@ package main
 
 import (
 	"log"
-	"net/http"
 
 	"go-web/internal/config"
 	"go-web/internal/router"
@@ -10,10 +9,10 @@ import (
 
 func main() {
 	cfg := config.Load()
-	handler := router.New()
+	engine := router.New()
 
 	log.Printf("server starting on %s", cfg.Addr)
-	if err := http.ListenAndServe(cfg.Addr, handler); err != nil {
+	if err := engine.Run(cfg.Addr); err != nil {
 		log.Fatalf("server stopped: %v", err)
 	}
 }
