@@ -12,6 +12,8 @@ const DefaultPath = "configs/config.yaml"
 type Config struct {
 	Server Server `yaml:"server"`
 	Log    Log    `yaml:"log"`
+	JWT    JWT    `yaml:"jwt"`
+	Casbin Casbin `yaml:"casbin"`
 }
 
 type Server struct {
@@ -20,6 +22,16 @@ type Server struct {
 
 type Log struct {
 	Path string `yaml:"path"`
+}
+
+type JWT struct {
+	Secret string `yaml:"secret"`
+	Issuer string `yaml:"issuer"`
+}
+
+type Casbin struct {
+	ModelPath  string `yaml:"model_path"`
+	PolicyPath string `yaml:"policy_path"`
 }
 
 func Load() (Config, error) {
@@ -49,6 +61,14 @@ func defaultConfig() Config {
 		},
 		Log: Log{
 			Path: "logs/app.log",
+		},
+		JWT: JWT{
+			Secret: "change-me",
+			Issuer: "go-web",
+		},
+		Casbin: Casbin{
+			ModelPath:  "configs/rbac_model.conf",
+			PolicyPath: "configs/rbac_policy.csv",
 		},
 	}
 }

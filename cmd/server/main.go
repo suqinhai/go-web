@@ -13,7 +13,10 @@ func main() {
 		log.Fatalf("load config failed: %v", err)
 	}
 
-	engine := router.New()
+	engine, err := router.New(cfg)
+	if err != nil {
+		log.Fatalf("init router failed: %v", err)
+	}
 
 	log.Printf("server starting on %s", cfg.Server.Addr)
 	if err := engine.Run(cfg.Server.Addr); err != nil {

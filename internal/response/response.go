@@ -7,8 +7,11 @@ import (
 )
 
 const (
-	CodeSuccess = 0
-	CodeFail    = 1
+	CodeSuccess      = 0
+	CodeFail         = 1
+	CodeUnauthorized = 40101
+	CodeForbidden    = 40301
+	CodeServerError  = 50001
 )
 
 const (

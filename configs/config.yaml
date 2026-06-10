@@ -3,3 +3,11 @@ server:
 
 log:
   path: "logs/app.log"
+
+jwt:
+  secret: "change-me"
+  issuer: "go-web"
+
+casbin:
+  model_path: "configs/rbac_model.conf"
+  policy_path: "configs/rbac_policy.csv"

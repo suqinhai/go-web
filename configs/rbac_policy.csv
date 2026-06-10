@@ -1,0 +1,8 @@
+p, admin, /api/*, .*
+p, merchant, /api/profile, GET
+p, merchant, /api/merchant/*, .*
+p, agent, /api/profile, GET
+p, agent, /api/agent/*, .*
+g, admin, admin
+g, merchant, merchant
+g, agent, agent

@@ -2,12 +2,15 @@ package router
 
 import (
 	"go-web/internal/api"
+	"go-web/internal/config"
+	"go-web/internal/middleware"
 
 	"github.com/gin-gonic/gin"
 )
 
-func New() *gin.Engine {
-	engine := gin.Default()
+func New(cfg config.Config) (*gin.Engine, error) {
+	engine := gin.New()
+	engine.Use(middleware.Logger(), middleware.Recovery(), middleware.CORS())
 
 	engine.GET("/", api.Index)
 	engine.GET("/health", api.Health)
@@ -24,5 +27,16 @@ func New() *gin.Engine {
 		}
 	}
 
-	return engine
+	authz, err := middleware.NewCasbin(cfg.Casbin.ModelPath, cfg.Casbin.PolicyPath)
+	if err != nil {
+		return nil, err
+	}
+
+	protected := engine.Group("/api")
+	protected.Use(middleware.JWT(cfg.JWT.Secret, cfg.JWT.Issuer), middleware.Tenant(), authz)
+	{
+		protected.GET("/profile", api.Profile)
+	}
+
+	return engine, nil
 }
